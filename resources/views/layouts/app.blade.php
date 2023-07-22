@@ -13,6 +13,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <!-- Styles -->
         @livewireStyles
@@ -41,5 +42,40 @@
         @stack('modals')
 
         @livewireScripts
+
+        <script>
+           Livewire.on('alert',function(message){
+                Swal.fire(
+                'Buen trabajo!',
+                message,
+                'success'
+                )
+           })
+        </script>
+
+        <script>
+            Livewire.on('eliminarEmpleado',empleadoId => {
+                Swal.fire({
+                title: 'Está seguro?',
+                text: "No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, bórralo!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+
+                    Livewire.emitTo('mostrar-empleados','delete',empleadoId)
+
+                    Swal.fire(
+                    'Eliminado!',
+                    'Su registro ha sido eliminado..',
+                    'success'
+                    )
+                }
+                })
+            })
+        </script>
     </body>
 </html>
